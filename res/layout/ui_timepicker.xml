@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cxc="http://schemas.android.com/apk/res/com.example.newtimepicker"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="设置提醒时间"
+         android:background="#F5F5F5"
+         android:id="@+id/tv_timepicker_title"
+        android:textStyle="bold" />
+
+ 
+    <LinearLayout
+        android:layout_width="match_parent"
+          android:layout_height="120dp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:orientation="horizontal" >
+
+        <com.AaronChan.mynote.ui.WheelView
+            android:id="@+id/wv_timepicker_date"
+            android:layout_weight="2"
+            style="@style/mywheelViewStyle" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:background="#9e9e9e" />
+
+        <com.AaronChan.mynote.ui.WheelView
+            android:id="@+id/wv_timepicker_hour"
+              android:layout_weight="1"
+            style="@style/mywheelViewStyle" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:background="#9e9e9e" />
+
+        <com.AaronChan.mynote.ui.WheelView
+            android:id="@+id/wv_timepicker_min"
+              android:layout_weight="1"
+            style="@style/mywheelViewStyle" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:background="#9e9e9e" />
+    </LinearLayout>
+     <!--   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp">
+
+        <Button
+            android:id="@+id/bt_cancel"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/bt_confirm"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
+    </LinearLayout> -->
+</LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="vertical"
+    android:id="@+id/ll_main_listitemcontainer"     >
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:id="@+id/tv_main_listitemtime"
+        />
+     <View 
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dp"
+      android:background="#000000"
+        />
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:id="@+id/tv_main_listitemcontent"
+        />
+
+</LinearLayout>
