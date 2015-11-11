@@ -1,73 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-    >
-<LinearLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edit_title_blue"
-        android:id="@+id/ll_NoteEditActivity_title">
-        
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/ll_NoteEditActivity_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_title_blue"
+            android:orientation="horizontal" >
+
             <TextView
-            android:id="@+id/tv_NoteEditActivity_note_date_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="#66333333"
-            android:textSize="15.0sp"
-            android:textStyle="bold"
-            android:gravity="left"
-            android:layout_gravity="center_vertical" />
-		 <ImageButton
-            android:id="@+id/ib_NoteEditActivity_alarm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/alarm" />
-            
-        <ImageButton
-            android:id="@+id/ib_NoteEditActivity_bgcolor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_color" />
-        
-        
-        
-    </LinearLayout>
-    <EditText 
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/et_NoteEditActivity_note_detail"
-        android:background="@drawable/edit_blue"
-           android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:gravity="top|left"/>
-    
-   
-          
-          
-          
+                android:id="@+id/tv_NoteEditActivity_note_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:gravity="left"
+                android:textColor="#66333333"
+                android:textSize="15.0sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_NoteEditActivity_note_alert_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="left"
+                android:textColor="#61616187"
+                android:text="ads"
+                android:textSize="15.0sp"
+                 />
+   		<ImageButton
+                android:id="@+id/ib_NoteEditActivity_alarm_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@drawable/delete_alarm" />
+   		
+            <ImageButton
+                android:id="@+id/ib_NoteEditActivity_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/alarm" />
+
+            <ImageButton
+                android:id="@+id/ib_NoteEditActivity_bgcolor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_color" />
         </LinearLayout>
-       <LinearLayout
+
+        <EditText
+            android:id="@+id/et_NoteEditActivity_note_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/edit_blue"
+            android:gravity="top|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_NodeEditActivity_bg_color_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/note_edit_color_selector_panel"
-        android:layout_marginTop="30dip"
-        android:layout_marginRight="8dip"
         android:layout_gravity="top|right"
-        android:visibility="gone">
-        	<FrameLayout
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="30dip"
+        android:background="@drawable/note_edit_color_selector_panel"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/iv_bg_yellow"
@@ -81,14 +93,14 @@
                 android:layout_gravity="bottom|right"
                 android:layout_marginRight="5dip"
                 android:focusable="false"
-                android:visibility="gone"
-                android:src="@drawable/selected" />
-            
+                android:src="@drawable/selected"
+                android:visibility="gone" />
         </FrameLayout>
-     <FrameLayout
+
+        <FrameLayout
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/iv_bg_blue"
@@ -100,16 +112,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:focusable="false"
-                android:visibility="gone"
                 android:layout_marginRight="3dip"
-                android:src="@drawable/selected" />
+                android:focusable="false"
+                android:src="@drawable/selected"
+                android:visibility="gone" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/iv_bg_white"
@@ -121,16 +133,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:focusable="false"
-                android:visibility="gone"
                 android:layout_marginRight="2dip"
-                android:src="@drawable/selected" />
+                android:focusable="false"
+                android:src="@drawable/selected"
+                android:visibility="gone" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/iv_bg_green"
@@ -143,14 +155,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:focusable="false"
-                android:visibility="gone"
-                android:src="@drawable/selected" />
+                android:src="@drawable/selected"
+                android:visibility="gone" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/iv_bg_red"
@@ -163,10 +175,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:focusable="false"
-                android:visibility="gone"
-                android:src="@drawable/selected" />
+                android:src="@drawable/selected"
+                android:visibility="gone" />
         </FrameLayout>
-    
+    </LinearLayout>
 
-</LinearLayout>
 </FrameLayout>

@@ -5,8 +5,8 @@ import java.util.Date;
 
 import com.AaronChan.mynote.R;
 import com.AaronChan.mynote.data.NotesTable.NoteColumns;
-import com.AaronChan.mynote.utils.DateUtils;
 import com.AaronChan.mynote.utils.Logger;
+import com.AaronChan.mynote.utils.MyDateUtils;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -69,10 +69,11 @@ public class NoteCursorAdapter extends CursorAdapter {
 		holder.ll_main_listitemcontainer.setBackgroundResource(bg_color_id);;
 		Logger.i(TAG, update_date+"");
 		long currentTimeMillis = System.currentTimeMillis();
-		if (DateUtils.isInSameDay(currentTimeMillis, update_date)) {
-			holder.tv_main_listitemtime.setText("今天  "+DateUtils.getTime(update_date));
-		}else{
-			holder.tv_main_listitemtime.setText(DateUtils.getDetailTime(update_date));
+		long dateRange = MyDateUtils.getDateRange(update_date, currentTimeMillis);
+		if (dateRange==0) {
+			holder.tv_main_listitemtime.setText("今天  "+MyDateUtils.getDateTime(update_date, MyDateUtils.SIMPLE_TIME));
+		}else {
+			holder.tv_main_listitemtime.setText(MyDateUtils.getDateTime(update_date, MyDateUtils.DETAIL_DATE_TIME));
 		}
 		holder.tv_main_listitemcontent.setText(content);
 		

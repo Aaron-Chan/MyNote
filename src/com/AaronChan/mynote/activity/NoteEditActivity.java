@@ -7,10 +7,8 @@ import com.AaronChan.mynote.R;
 import com.AaronChan.mynote.data.Note;
 import com.AaronChan.mynote.data.NotesTable;
 import com.AaronChan.mynote.data.NotesTable.NoteColumns;
-import com.AaronChan.mynote.ui.TimePickerView;
-import com.AaronChan.mynote.ui.WheelView;
-import com.AaronChan.mynote.utils.DateUtils;
 import com.AaronChan.mynote.utils.Logger;
+import com.AaronChan.mynote.utils.MyDateUtils;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -35,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NoteEditActivity extends Activity implements OnClickListener{
 	//默认背景色代号，默认为bule;
@@ -43,15 +42,14 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 	private LinearLayout ll_NoteEditActivity_title;
 	private EditText et_NoteEditActivity_note_detail;
 	private static final String TAG ="NoteEditActivity";
-	private String date;
 	private long create_date;
-	private String detailTime;
 	private Note note;
 	private long alarm_time;
 	private TextView tv_NoteEditActivity_note_date_time;
 	private AlertDialog alertDialog;
 	private static final String ALARM_ACTION="com.AaronChan.mynote.intent.alarm";
-	private TimePickerView view;
+	private boolean isNewNote;
+	private TextView tv_NoteEditActivity_note_alert_time;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -62,14 +60,20 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 		et_NoteEditActivity_note_detail = (EditText) findViewById(R.id.et_NoteEditActivity_note_detail);
 		ll_NoteEditActivity_title = (LinearLayout) findViewById(R.id.ll_NoteEditActivity_title);
 		tv_NoteEditActivity_note_date_time = (TextView) findViewById(R.id.tv_NoteEditActivity_note_date_time);
-		
-		//初始化页面相关内容
-		init();
+		 tv_NoteEditActivity_note_alert_time = (TextView)findViewById(R.id.tv_NoteEditActivity_note_alert_time);
 	
-		
+		//判断是否为新建便签
+		isNewNote = isNewNote();
+		//初始化页面相关内容
+		init(isNewNote);
+	
+	
 		//设置背景选择器监听器
 		ImageButton ib_NoteEditActivity_bgcolor = (ImageButton) findViewById(R.id.ib_NoteEditActivity_bgcolor);
 		ib_NoteEditActivity_bgcolor.setOnClickListener(this);
+		//设置闹钟点击监听器
+		ImageButton ib_NoteEditActivity_alarm_delete = (ImageButton)findViewById(R.id.ib_NoteEditActivity_alarm_delete);
+		 ib_NoteEditActivity_alarm_delete.setOnClickListener(this);
 		//设置闹钟监听器
 		ImageButton ib_NoteEditActivity_alarm = (ImageButton) findViewById(R.id.ib_NoteEditActivity_alarm);
 		ib_NoteEditActivity_alarm.setOnClickListener(this);
@@ -89,17 +93,32 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 		bgHolder.iv_bg_white_select = (ImageView) findViewById(R.id.iv_bg_white_select);
 		
 	}
-	
 	/**
-	 * 根据bundle的获取情况，如是保存的便签，显示该便签上次保存的内容
-	 * ，如果是新建的便签，加载默认内容
+	 * 判断是否为新建便签
+	 * @return
 	 */
-	private void init() {
+	private boolean 	isNewNote(){
 		// 获取bundle ，如果有，则是以前保存的便签，显示上次保存的内容
+		boolean flag=true;
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			note = bundle.getParcelable("notedata");
 			if (note != null) {
+				flag=false;
+			}else{
+				note=new Note();
+			}
+		}
+		return flag;
+		
+	}
+	/**
+	 * 
+	 * 如果是新建的便签，加载默认内容,否则加载保存的内容
+	 * @param isNewNote 
+	 */
+	private void init(boolean isNewNote) {
+		if(!isNewNote){
 				switch (note.getBg_color_id()) {
 				case R.drawable.edit_blue:
 					ll_NoteEditActivity_title.setBackgroundResource(R.drawable.edit_title_blue);
@@ -118,8 +137,6 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 				case R.drawable.edit_yellow:
 					ll_NoteEditActivity_title.setBackgroundResource(R.drawable.edit_title_yellow);
 					break;
-
-
 				default:
 					break;
 				}
@@ -127,18 +144,18 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 				//设置光标的位置
 				et_NoteEditActivity_note_detail.setSelection(note.getContent().length());
 				et_NoteEditActivity_note_detail.setBackgroundResource(note.getBg_color_id());
-				String update_time = DateUtils.getDetailTime(note.getUpdate_date());
+				String update_time = MyDateUtils.getDateTime(note.getUpdate_date(), MyDateUtils.DETAIL_DATE_TIME);
 				tv_NoteEditActivity_note_date_time.setText(update_time);
 				
 				int _id = note.get_id();
-			}
+			
 		} else {
-			// 获得当前日期和具体时间
-			detailTime = DateUtils.getDateTime(DateUtils.DETAIL_TIME);
-			date = DateUtils.getDateTime(DateUtils.DATE);
+			// 获得创建时间，并转换为string设置在title
 			create_date=System.currentTimeMillis();
-			//设置时间
-			tv_NoteEditActivity_note_date_time.setText(date+" "+DateUtils.getDateTime(DateUtils.TIME));
+			String titleDateTime=MyDateUtils.getDateTime(create_date, MyDateUtils.DETAIL_DATE_TIME);
+			
+			//设置title
+			tv_NoteEditActivity_note_date_time.setText(titleDateTime);
 		}
 	}
 
@@ -148,7 +165,7 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.ib_NoteEditActivity_alarm:
 			
-			view = new TimePickerView(this);
+		/*	view = new TimePickerView(this);
 		final WheelView wv_timepicker_date =(WheelView) view.findViewById(R.id.wv_timepicker_date);
 		final WheelView wv_timepicker_hour =(WheelView) view.findViewById(R.id.wv_timepicker_hour);
 		final WheelView wv_timepicker_min = (WheelView) view.findViewById(R.id.wv_timepicker_min);
@@ -159,25 +176,25 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
-					Intent intent=new Intent(ALARM_ACTION);
-					PendingIntent pendingIntent=PendingIntent.getBroadcast(NoteEditActivity.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-					AlarmManager alarmManager=(AlarmManager) NoteEditActivity.this.getSystemService(Context.ALARM_SERVICE);
-					 int selectedDate = wv_timepicker_date.getSelected();
-					String hour = wv_timepicker_hour.getSelectedText();
-					String min = wv_timepicker_min.getSelectedText();
-					String date = view.realDateList.get(selectedDate);
-					String strDate=date+" "+hour+":"+min;
-					Logger.i(TAG, strDate);
-					Date strToDate = DateUtils.strToDate(strDate, DateUtils.ALARM_TIME);
-					Calendar calendar = Calendar.getInstance();
-					calendar.setTime(strToDate);
-					Logger.i(TAG, strToDate.toString());
-					alarm_time=calendar.getTimeInMillis();
-					alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+					if (!isNewNote) {
+						
+					}else{
+						if (!TextUtils.isEmpty(et_NoteEditActivity_note_detail.getText().toString())) {
+							saveNote();
+							
+						}else{
+							Toast.makeText(getApplicationContext(), "不能为空便签设置提醒", 0).show();
+						}
+					
+					}
+					
 					
 					
 				}
+				
+				
 			})
+				
 			.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 				
 				@Override
@@ -186,7 +203,7 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 					alertDialog.dismiss();
 				}
 			})
-			.show();
+			.show();*/
 			
 			break;
 		case R.id.ib_NoteEditActivity_bgcolor:
@@ -206,7 +223,21 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 				bgHolder.iv_bg_white.setOnClickListener(selectorListener);
 			}
 			break;
-
+		case R.id.ib_NoteEditActivity_alarm_delete:
+			new AlertDialog.Builder(this)
+			.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			})
+			.setNegativeButton("取消", null)
+			.setTitle("是否删除提醒")
+			.show();
+			
+			break;
 		default:
 			break;
 		}
@@ -322,7 +353,7 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 		if (!TextUtils.isEmpty(content)) {
 			
 			ContentValues values=new ContentValues();
-			if (note!=null) {
+			if (!isNewNote) {
 				//判断是已有的便签，此时editText的内容 不 为空，更新便签
 				values.put(NoteColumns.BACKGROUND_COLOR_ID,color );
 				values.put(NoteColumns.CONTENT,content );
@@ -332,7 +363,6 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 			Logger.i(TAG, ""+update);
 			}else{
 				//保存便签
-				Logger.i(TAG, detailTime+"   "+DateUtils.getDateTime(DateUtils.DETAIL_TIME));
 				values.put(NoteColumns.CREATE_DATE, create_date);
 				values.put(NoteColumns.BACKGROUND_COLOR_ID,color );
 				values.put(NoteColumns.CONTENT,content );
@@ -340,10 +370,13 @@ public class NoteEditActivity extends Activity implements OnClickListener{
 				Logger.i(TAG, System.currentTimeMillis()+"");
 				values.put(NoteColumns.ALARM_TIME, alarm_time);
 				Uri insertUri = getContentResolver().insert(NotesTable.CONTENT_URL_NOTES, values);
+				int insertId = (int) ContentUris.parseId(insertUri);
+				note.set_id(insertId);
+				isNewNote=true;
 			}
 		}else{
 			//判断是已有的便签，此时editText的内容为空，删除便签
-			if (note!=null) {
+			if (!isNewNote) {
 				int _id = note.get_id();
 				int delete = getContentResolver().delete(ContentUris.withAppendedId(NotesTable.CONTENT_URL_NOTES, _id), null, null);
 				Logger.i(TAG, ""+delete);
