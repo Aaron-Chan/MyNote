@@ -2,6 +2,7 @@ package com.AaronChan.mynote.activity;
 
 import com.AaronChan.mynote.R;
 import com.AaronChan.mynote.adapter.NoteCursorAdapter;
+import com.AaronChan.mynote.dao.NoteDao;
 import com.AaronChan.mynote.data.Note;
 import com.AaronChan.mynote.data.NotesTable;
 import com.AaronChan.mynote.data.NotesTable.NoteColumns;
@@ -27,12 +28,15 @@ public class MainActivity extends Activity implements OnClickListener,OnItemClic
 	private static final String TAG="MainActivity";
 	private ListView lv_notes_MainActivity;
 	private Cursor cursor;
+	private NoteDao dao;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//去除标题栏
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		dao = new NoteDao(this);
+		
 		ImageButton ib_add_note_MainActivity=(ImageButton) findViewById(R.id.ib_MainActivity_addnote);
 		lv_notes_MainActivity = (ListView) findViewById(R.id.lv_MainActivity_notes);
 		ib_add_note_MainActivity.setOnClickListener(this);	
@@ -94,7 +98,7 @@ public class MainActivity extends Activity implements OnClickListener,OnItemClic
 	}
 	//更新listview
 	private void refreshListView() {
-		cursor = getContentResolver().query(NotesTable.CONTENT_URL_NOTES, null, null, null, null);
+		cursor = dao.queryAll();
 		lv_notes_MainActivity.setAdapter(new NoteCursorAdapter(this, cursor, true));								
 		Logger.i(TAG, cursor.getCount()+"");
 	}

@@ -1,17 +1,17 @@
 package com.AaronChan.mynote.ui;
 
 
-import java.text.DateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
+
 
 import com.AaronChan.mynote.R;
 import com.AaronChan.mynote.utils.MyDateUtils;
 
 import android.content.Context;
-import android.content.SyncStats;
+
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.R.bool;
+import android.text.format.DateUtils;
 
 public class MyDateUtils {
 	public static final String DETAIL_DATE_TIME = "yyyy-MM-dd HH:mm";
@@ -30,6 +31,8 @@ public class MyDateUtils {
 		return dateRang;
 
 	}
+
+	
 
 	// 把字符串日期时间转化为Date
 	public static Date strToDate(String strDate, String dateformat) {

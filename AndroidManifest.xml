@@ -32,7 +32,7 @@
          android:multiprocess="true"
          
            ></provider>
-       <receiver android:name="com.AaronChan.mynote.receiver.NoteAlarm"
+       <receiver android:name="com.AaronChan.mynote.receiver.NoteAlarmReceiver"
            android:process=":remote">
            <intent-filter >
                <action android:name="com.AaronChan.mynote.intent.alarm"/>

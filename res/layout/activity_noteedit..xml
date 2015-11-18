@@ -32,8 +32,8 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="left"
                 android:textColor="#61616187"
-                android:text="ads"
                 android:textSize="15.0sp"
+                android:visibility="gone"
                  />
    		<ImageButton
                 android:id="@+id/ib_NoteEditActivity_alarm_delete"
